@@ -52,6 +52,7 @@ const elements = {
 init();
 
 function init() {
+  showReadyState();
   fillSelect(elements.domainFilter, ["All", ...unique(QUESTION_BANK.map(q => q.domain))]);
   fillSelect(elements.trapFilter, ["All", ...unique(QUESTION_BANK.map(q => q.trapFamily || q.trap))]);
   fillSelect(elements.difficultyFilter, ["All", ...unique(QUESTION_BANK.map(q => q.difficulty))]);
@@ -87,8 +88,8 @@ function updateAvailableHint() {
   elements.questionCount.max = String(Math.max(1, available || QUESTION_BANK.length));
   normalizeQuestionCount();
   elements.availableHint.textContent = available
-    ? `${available} question${available === 1 ? "" : "s"} match the current filters.`
-    : "No questions match the current filters.";
+    ? `${available} sample question${available === 1 ? "" : "s"} match the current filters.`
+    : "No sample questions match these filters. Reset filters to keep practicing here, or use the full bank for broader coverage.";
 }
 
 function normalizeQuestionCount() {
@@ -101,7 +102,7 @@ function normalizeQuestionCount() {
 function startSession() {
   const pool = filteredQuestions();
   if (!pool.length) {
-    alert("No questions match the selected filters.");
+    showNoMatchState();
     return;
   }
 
@@ -116,6 +117,24 @@ function startSession() {
   elements.quizState.classList.remove("hidden");
 
   renderQuestion();
+}
+
+function showReadyState() {
+  elements.emptyState.innerHTML = `
+    <h2>Ready to drill</h2>
+    <p>Choose your filters and start a session. This public sample includes 16 questions across the eight domains and focuses on scenario judgment, not fact memorization.</p>
+  `;
+}
+
+function showNoMatchState() {
+  elements.quizState.classList.add("hidden");
+  elements.summaryState.classList.add("hidden");
+  elements.emptyState.classList.remove("hidden");
+  elements.emptyState.innerHTML = `
+    <h2>This filter combination is not in the free sample</h2>
+    <p>This public sample is intentionally small. Reset your filters to keep practicing here, or move to the full bank for broader domain and trap-family coverage.</p>
+    <p><strong>Tip:</strong> Choose <em>All</em> for Trap family or Domain to continue the sample without losing momentum.</p>
+  `;
 }
 
 function filteredQuestions() {
