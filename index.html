@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trap Answer Trainer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">CISSP judgment trainer</p>
+      <h1>Trap Answer Trainer</h1>
+      <p class="subtitle">Train the skill that misses questions: rejecting the attractive-but-wrong answer.</p>
+    </div>
+    <div class="hero-meta">
+      <div class="pill">Static web app</div>
+      <div class="pill">Offline-ready</div>
+      <div class="pill">Local progress</div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel controls">
+      <h2>Session setup</h2>
+      <label>
+        Question count
+        <input id="questionCount" type="number" min="5" max="30" step="5" value="10" />
+      </label>
+
+      <label>
+        Domain
+        <select id="domainFilter"></select>
+      </label>
+
+      <label>
+        Trap type
+        <select id="trapFilter"></select>
+      </label>
+
+      <label>
+        Difficulty
+        <select id="difficultyFilter"></select>
+      </label>
+
+      <div class="button-row">
+        <button id="startBtn" class="primary">Start session</button>
+        <button id="reshuffleBtn">Reshuffle</button>
+      </div>
+
+      <section class="stats-block">
+        <h3>All-time stats</h3>
+        <div class="stat-grid">
+          <div><span class="stat-label">Attempts</span><strong id="attemptsStat">0</strong></div>
+          <div><span class="stat-label">Answered</span><strong id="answeredStat">0</strong></div>
+          <div><span class="stat-label">Accuracy</span><strong id="accuracyStat">0%</strong></div>
+          <div><span class="stat-label">Missed</span><strong id="missedStat">0</strong></div>
+        </div>
+      </section>
+
+      <section class="stats-block">
+        <h3>Principles to internalize</h3>
+        <ul id="principlesList" class="principles-list"></ul>
+      </section>
+
+      <section class="stats-block">
+        <h3>Progress tools</h3>
+        <div class="button-column">
+          <button id="exportBtn">Export progress</button>
+          <button id="resetBtn" class="danger">Reset progress</button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="panel quiz-panel">
+      <div id="emptyState" class="empty-state">
+        <h2>Ready to drill</h2>
+        <p>Choose your filters and start a session. This build focuses on scenario judgment, not fact memorization.</p>
+      </div>
+
+      <div id="quizState" class="hidden">
+        <div class="quiz-topbar">
+          <div>
+            <span id="progressLabel">Question 1 of 10</span>
+            <div class="progress"><div id="progressBar"></div></div>
+          </div>
+          <div class="session-stats">
+            <span id="sessionCorrect">0 correct</span>
+            <span id="sessionWrong">0 missed</span>
+          </div>
+        </div>
+
+        <article class="question-card">
+          <div class="meta-row">
+            <span id="domainBadge" class="badge"></span>
+            <span id="trapBadge" class="badge"></span>
+            <span id="difficultyBadge" class="badge"></span>
+          </div>
+          <h2 id="questionStem"></h2>
+          <div id="options" class="options"></div>
+        </article>
+
+        <section id="feedback" class="feedback hidden">
+          <h3 id="feedbackHeadline"></h3>
+          <p><strong>Why:</strong> <span id="rationaleText"></span></p>
+          <p><strong>Why the trap feels right:</strong> <span id="trapText"></span></p>
+          <p><strong>Decision principle:</strong> <span id="principleText"></span></p>
+        </section>
+
+        <div class="button-row quiz-actions">
+          <button id="nextBtn" class="primary" disabled>Next</button>
+          <button id="endBtn">End session</button>
+        </div>
+      </div>
+
+      <div id="summaryState" class="hidden summary-state">
+        <h2>Session summary</h2>
+        <div class="summary-grid">
+          <div><span class="stat-label">Score</span><strong id="summaryScore"></strong></div>
+          <div><span class="stat-label">Correct</span><strong id="summaryCorrect"></strong></div>
+          <div><span class="stat-label">Missed</span><strong id="summaryMissed"></strong></div>
+        </div>
+        <div>
+          <h3>Questions to review</h3>
+          <div id="reviewList" class="review-list"></div>
+        </div>
+        <div class="button-row">
+          <button id="restartBtn" class="primary">Start another session</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>This product is unofficial and not endorsed by ISC2. CISSP is a registered mark of ISC2, Inc.</p>
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
